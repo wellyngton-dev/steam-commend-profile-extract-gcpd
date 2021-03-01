@@ -30,8 +30,13 @@ client.on('error', function(e) {
 client.on('webSession', (sessionid, cookies) => {
 	community.setCookies(cookies),
 	community.startConfirmationChecker(10000);
-
-	request.post(`https://steamcommunity.com/profiles/${client.steamID}/gcpd/730/?tab=playercommends`, {
+	
+	if (client.vanityURL) {
+		var url = `https://steamcommunity.com/id/${client.vanityURL}/gcpd/730/?tab=playercommends`;
+	} else {
+		var url = `https://steamcommunity.com/profiles/${client.steamID}/gcpd/730/?tab=playercommends`;
+	}
+	request.post(url, {
 		headers: {
 			'Cookie': cookies,
 			'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36',
